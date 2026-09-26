@@ -1,0 +1,28 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-error.log*
+# Environment variables
+.env
+.env.local
+client/.env
+client/android/
+server/.env
+server/uploads/
+ifb-mobile/
+mobile/
+
+# Build / output
+dist/
+build/
+
+# Vite cache
+client/node_modules/.vite/
+.vite/
+
+# OS files
+.DS_Store
+
+# Logs
+logs/
+*.log   

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", "system-ui", sans-serif;
+
+  --color-erp-primary: #2563EB;
+  --color-erp-secondary: #64748B;
+  --color-erp-success: #22C55E;
+  --color-erp-warning: #F59E0B;
+  --color-erp-danger: #EF4444;
+  --color-erp-info: #0EA5E9;
+  --color-erp-bg: #F1F5F9;
+}
+
+:root {
+  font-family: var(--font-inter);
+  line-height: 1.5;
+  font-weight: 400;
+
+  background-color: var(--color-erp-bg);
+  color: #1e293b;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Remove default focus outlines in favor of tailwind rings */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}

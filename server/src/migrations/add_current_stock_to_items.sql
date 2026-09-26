@@ -1,0 +1,1 @@
+ALTER TABLE items ADD COLUMN current_stock DECIMAL(10,2) DEFAULT 0;

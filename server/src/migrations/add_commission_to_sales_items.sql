@@ -1,0 +1,1 @@
+ALTER TABLE sales_items ADD COLUMN comm_rate DECIMAL(10,2) DEFAULT 0, ADD COLUMN tot_commission DECIMAL(10,2) DEFAULT 0;

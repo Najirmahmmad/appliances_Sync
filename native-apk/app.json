@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "IFB Sync 2026",
+    "slug": "ifb-sync-2026",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "ifbsync2026",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE"
+      },
+      "package": "com.ifb.sync2026"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysPermissionDescription": "Allow GeoTracker to access your location.",
+          "isAndroidBackgroundLocationEnabled": true
+        }
+      ],
+      "expo-font",
+      "expo-image",
+      "expo-sharing",
+      "expo-splash-screen",
+      "expo-status-bar",
+      "expo-web-browser",
+      "@react-native-community/datetimepicker"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {}
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}
