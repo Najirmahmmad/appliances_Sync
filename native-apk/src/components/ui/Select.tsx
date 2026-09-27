@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Platform, StyleSheet, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme/ThemeContext';
 import Typography from './Typography';
 
@@ -30,10 +31,10 @@ export default function Select({ label, value, options, onChange, icon }: Select
         style={[
           styles.inputContainer,
           {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-            borderRadius: radius.sm,
-            paddingHorizontal: spacing.sm,
+            backgroundColor: '#f8fafc',
+            borderColor: '#e2e8f0',
+            borderRadius: 8,
+            paddingHorizontal: spacing.md,
           },
         ]}
       >
@@ -52,19 +53,30 @@ export default function Select({ label, value, options, onChange, icon }: Select
               outline: 'none',
               color: colors.textPrimary,
               fontSize: 14,
+              fontWeight: '500',
+              cursor: 'pointer',
+              appearance: 'none',
+              WebkitAppearance: 'none',
+              MozAppearance: 'none',
+              paddingRight: 24,
             }}
           >
             {options.map((opt) => (
-              <option key={opt.value} value={opt.value} style={{ backgroundColor: colors.surface, color: colors.textPrimary }}>
+              <option key={opt.value} value={opt.value} style={{ backgroundColor: '#ffffff', color: colors.textPrimary }}>
                 {opt.label}
               </option>
             ))}
           </select>
         ) : (
-          <Text style={{ flex: 1, paddingVertical: 12, color: colors.textPrimary, fontSize: 14 }}>
+          <Text style={{ flex: 1, paddingVertical: 12, color: colors.textPrimary, fontSize: 14, fontWeight: '500' }}>
             {options.find((o) => o.value === value)?.label || 'Select...'}
           </Text>
         )}
+        
+        {/* Custom Chevron Icon Overlay */}
+        <View style={{ position: 'absolute', right: 12, pointerEvents: 'none' }}>
+          <Ionicons name="chevron-down" size={16} color="#64748b" />
+        </View>
       </View>
     </View>
   );

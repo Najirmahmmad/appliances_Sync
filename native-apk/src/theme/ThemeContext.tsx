@@ -50,8 +50,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const systemIsDark = mode === 'system' ? systemColorScheme === 'dark' : mode === 'dark';
-  // Force light mode if user is not logged in
-  const isDark = user ? systemIsDark : false;
+  const isDark = systemIsDark;
   const colors = isDark ? darkColors : lightColors;
 
   return (

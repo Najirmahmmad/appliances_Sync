@@ -4,10 +4,12 @@ import { Slot, useRouter, usePathname } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '../../src/theme/ThemeContext';
 
 export default function AdminLayout() {
   const router = useRouter();
   const pathname = usePathname();
+  const { colors, isDark, mode, setMode } = useTheme();
   
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -122,8 +124,12 @@ export default function AdminLayout() {
     { name: 'Master Users', path: '/admin/users', icon: 'people-outline' as const },
   ];
 
+  const toggleTheme = () => {
+    setMode(isDark ? 'light' : 'dark');
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }} edges={['top', 'bottom']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }} edges={['top', 'bottom']}>
       <View style={{ flex: 1, flexDirection: Platform.OS === 'web' && Dimensions.get('window').width > 768 ? 'row' : 'column' }}>
         
         {/* Sidebar */}
@@ -157,6 +163,14 @@ export default function AdminLayout() {
           </View>
 
           <View style={styles.logoutContainer}>
+            {/* Theme Toggle */}
+            <TouchableOpacity onPress={toggleTheme} style={[styles.menuItem, { marginBottom: 12 }]}>
+              <Ionicons name={isDark ? "sunny-outline" : "moon-outline"} size={20} color="#94a3b8" />
+              <Text style={{ marginLeft: 12, fontWeight: 'bold', color: '#94a3b8' }}>
+                {isDark ? 'Light Mode' : 'Dark Mode'}
+              </Text>
+            </TouchableOpacity>
+
             <TouchableOpacity onPress={handleLogout} style={styles.menuItem}>
               <Ionicons name="log-out-outline" size={20} color="#ef4444" />
               <Text style={{ marginLeft: 12, fontWeight: 'bold', color: '#ef4444' }}>Log out</Text>
@@ -165,7 +179,7 @@ export default function AdminLayout() {
         </View>
 
         {/* Main Content Area */}
-        <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+        <View style={{ flex: 1, backgroundColor: colors.background }}>
            <Slot />
         </View>
 
