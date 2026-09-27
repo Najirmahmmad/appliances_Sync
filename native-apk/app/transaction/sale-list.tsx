@@ -178,7 +178,8 @@ export default function SaleListScreen() {
     <ScreenContainer>
       <Header title="Sale Invoice List" subtitle="View & manage sales transactions" showBack />
 
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search Party, Phone, Invoice No..."
           value={searchTerm}
@@ -186,6 +187,7 @@ export default function SaleListScreen() {
           onSubmitEditing={fetchSales}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
         <Button 
           title="New Sale Invoice" 
           onPress={() => router.push('/transaction/sale')} 

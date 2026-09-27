@@ -138,9 +138,18 @@ export default function LoginScreen() {
                 />
               </Card>
 
-              <Typography variant="caption" color={colors.textSecondary} align="center" style={{ marginTop: spacing.sm }}>
-                © 2026 IFB Sync ERP. All rights reserved.
-              </Typography>
+              <View style={{ marginTop: spacing.lg, alignItems: 'center', gap: spacing.md }}>
+                <TouchableOpacity 
+                  onPress={() => router.push('/admin/adminHome')}
+                  style={{ opacity: 0.5, padding: 8 }}
+                >
+                  <Ionicons name="headset-outline" size={20} color={colors.textSecondary} />
+                </TouchableOpacity>
+
+                <Typography variant="caption" color={colors.textSecondary} align="center">
+                  © 2026 IFB Sync ERP. All rights reserved.
+                </Typography>
+              </View>
             </View>
           </View>
         </View>

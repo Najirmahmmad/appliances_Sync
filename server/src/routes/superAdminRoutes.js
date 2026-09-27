@@ -1,5 +1,5 @@
 import express from 'express';
-import { getTenants, createTenant, updateTenant, getMasterUsers } from '../controllers/superAdminController.js';
+import { getTenants, createTenant, updateTenant, getMasterUsers, createMasterUser, updateMasterUser, deleteMasterUser } from '../controllers/superAdminController.js';
 
 // Note: You can add super-admin authentication middleware here
 const router = express.Router();
@@ -11,5 +11,8 @@ router.put('/tenants/:id', updateTenant);
 
 // Master Users Management
 router.get('/users', getMasterUsers);
+router.post('/users', createMasterUser);
+router.put('/users/:id', updateMasterUser);
+router.delete('/users/:id', deleteMasterUser);
 
 export default router;

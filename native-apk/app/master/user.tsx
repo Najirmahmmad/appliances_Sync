@@ -202,7 +202,8 @@ export default function UserMasterScreen() {
       <Header title="User Master" subtitle="Manage system users & roles" showBack />
 
       {/* Filter Section */}
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search by ID, Name, Email..."
           value={searchTerm}
@@ -210,6 +211,7 @@ export default function UserMasterScreen() {
           onSubmitEditing={fetchUsers}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
 
         {/* Role Filter */}
         <View style={{ gap: spacing.xs }}>

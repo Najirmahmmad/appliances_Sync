@@ -169,7 +169,8 @@ export default function PurchaseReturnListScreen() {
     <ScreenContainer>
       <Header title="Purchase Return List" subtitle="Manage inventory purchase returns" showBack />
 
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search Supplier, Invoice No..."
           value={searchTerm}
@@ -177,6 +178,7 @@ export default function PurchaseReturnListScreen() {
           onSubmitEditing={fetchPurchases}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
         <Button 
           title="New Purchase Return" 
           onPress={() => router.push('/transaction/purchase-return')} 

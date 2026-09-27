@@ -294,13 +294,15 @@ export default function ItemMasterScreen() {
       <Header title="Add/Acc Item Master" subtitle="Manage products and stock" showBack />
 
       {/* Search & Add */}
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search Item Code or Name..."
           value={searchTerm}
           onChangeText={setSearchTerm}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
         
         {/* Type Filters */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: spacing.sm }}>

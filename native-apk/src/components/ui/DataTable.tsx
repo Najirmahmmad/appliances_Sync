@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme/ThemeContext';
 import Typography from './Typography';
@@ -158,6 +158,43 @@ export default function DataTable<T>({
       </View>
     </View>
   );
+
+  const { width } = useWindowDimensions();
+  const isDesktop = width > 768;
+
+  if (isDesktop) {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, margin: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' }}>
+          <View style={{ flexDirection: 'row', backgroundColor: '#f8fafc', paddingHorizontal: spacing.lg, paddingVertical: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.border }}>
+            {columns.map((col, idx) => (
+              <View key={idx} style={{ flex: 1, alignItems: col.align === 'right' ? 'flex-end' : col.align === 'center' ? 'center' : 'flex-start', paddingRight: spacing.sm }}>
+                <Typography variant="caption" color={colors.textSecondary} style={{ fontWeight: '700', textTransform: 'uppercase' }}>
+                  {col.header}
+                </Typography>
+              </View>
+            ))}
+          </View>
+          <ScrollView>
+            {currentData.map((item, index) => (
+              <View key={keyExtractor(item, index)} style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: colors.border, paddingHorizontal: spacing.lg, paddingVertical: spacing.md, alignItems: 'center' }}>
+                {columns.map((col, idx) => (
+                  <View key={idx} style={{ flex: 1, alignItems: col.align === 'right' ? 'flex-end' : col.align === 'center' ? 'center' : 'flex-start', paddingRight: spacing.sm }}>
+                    {col.render ? col.render(item) : (
+                      <Typography variant="body" color={colors.textPrimary}>
+                        {String(item[col.field as keyof T] ?? '')}
+                      </Typography>
+                    )}
+                  </View>
+                ))}
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+        {renderPaginationFooter()}
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>

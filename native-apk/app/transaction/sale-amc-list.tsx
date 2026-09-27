@@ -178,7 +178,8 @@ export default function SaleAMCListScreen() {
     <ScreenContainer>
       <Header title="Sales AMC List" subtitle="View & manage AMC invoices" showBack />
 
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search Party, Phone, Invoice No..."
           value={searchTerm}
@@ -186,6 +187,7 @@ export default function SaleAMCListScreen() {
           onSubmitEditing={fetchSales}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
         <Button 
           title="New AMC Invoice" 
           onPress={() => router.push('/transaction/sale-amc')} 

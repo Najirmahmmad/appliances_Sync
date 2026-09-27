@@ -177,7 +177,8 @@ export default function DepartmentMasterScreen() {
       <Header title="Department Master" subtitle="Manage organization departments" showBack />
 
       {/* Filter Section */}
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search by Code or Name..."
           value={searchTerm}
@@ -185,6 +186,7 @@ export default function DepartmentMasterScreen() {
           onSubmitEditing={fetchDepartments}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
         <Button 
           title="Add Department" 
           onPress={handleAddNew} 

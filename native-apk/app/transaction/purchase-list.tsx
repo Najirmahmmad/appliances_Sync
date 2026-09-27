@@ -171,7 +171,8 @@ export default function PurchaseListScreen() {
     <ScreenContainer>
       <Header title="Purchase Invoice List" subtitle="Manage inventory purchases" showBack />
 
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search Supplier, Invoice No..."
           value={searchTerm}
@@ -179,6 +180,7 @@ export default function PurchaseListScreen() {
           onSubmitEditing={fetchPurchases}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
         <Button 
           title="New Purchase" 
           onPress={() => router.push('/transaction/purchase')} 

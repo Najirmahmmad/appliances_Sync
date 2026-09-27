@@ -184,7 +184,8 @@ export default function SaleReturnListScreen() {
     <ScreenContainer>
       <Header title="Sale Return List" subtitle="View & manage sale returns" showBack />
 
-      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
+        <View style={{ flex: 1, maxWidth: 400 }}>
         <Input
           placeholder="Search Party, Phone, Invoice No..."
           value={searchTerm}
@@ -192,6 +193,7 @@ export default function SaleReturnListScreen() {
           onSubmitEditing={fetchSales}
           icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
         />
+      </View>
         <Button 
           title="New Sale Return" 
           onPress={() => router.push('/transaction/sale-return')} 
