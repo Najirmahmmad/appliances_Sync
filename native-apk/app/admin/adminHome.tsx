@@ -5,6 +5,7 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DashboardStats from "../components/DashboardStats";
 import { clearAuthData } from "../utils/storage";
+import { StyleSheet } from "react-native";
 
 export default function AdminHome() {
   const router = useRouter();
@@ -34,9 +35,9 @@ export default function AdminHome() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
+    <SafeAreaView style={styles.container}>
       <ScrollView
-        className="flex-1"
+        style={styles.scrollView}
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
@@ -44,45 +45,139 @@ export default function AdminHome() {
         <DashboardStats data={adminStats} />
 
         {/* Tracked Users List Section */}
-        <View className="px-6 mt-8">
-          <Text className="text-xl font-black text-slate-900 mb-4 tracking-tight">
-            Tracked Users
-          </Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Tracked Users</Text>
 
           {/* User Tracking Card */}
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => router.push("/admin/tracking")}
-            className="bg-white p-5 rounded-[30px] flex-row items-center shadow-sm border border-slate-100"
+            style={styles.card}
           >
-            {/* Avatar Placeholder */}
-            <View className="bg-slate-100 w-12 h-12 rounded-2xl items-center justify-center">
-              <Ionicons name="person" size={24} color="#64748b" />
+            <View style={[styles.avatarPlaceholder, { backgroundColor: '#f1f5f9' }]}>
+              <Ionicons name="location" size={24} color="#64748b" />
             </View>
 
-            <View className="ml-4 flex-1">
-              <Text className="text-slate-900 text-lg font-bold">
-                Active Field User
-              </Text>
-              <Text className="text-slate-500 text-sm">
-                View recorded movement path
-              </Text>
+            <View style={styles.cardTextContainer}>
+              <Text style={styles.cardTitle}>Active Field User</Text>
+              <Text style={styles.cardSubtitle}>View recorded movement path</Text>
             </View>
 
             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
           </TouchableOpacity>
+
+          {/* Tenants Card */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => router.push("/admin/tenants")}
+            style={styles.card}
+          >
+            <View style={[styles.avatarPlaceholder, { backgroundColor: '#eff6ff' }]}>
+              <Ionicons name="business" size={24} color="#3b82f6" />
+            </View>
+            <View style={styles.cardTextContainer}>
+              <Text style={styles.cardTitle}>Tenant Management</Text>
+              <Text style={styles.cardSubtitle}>Manage clients and databases</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
+          </TouchableOpacity>
+
+          {/* Master Users Card */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => router.push("/admin/users")}
+            style={styles.card}
+          >
+            <View style={[styles.avatarPlaceholder, { backgroundColor: '#faf5ff' }]}>
+              <Ionicons name="people" size={24} color="#a855f7" />
+            </View>
+            <View style={styles.cardTextContainer}>
+              <Text style={styles.cardTitle}>Master Users</Text>
+              <Text style={styles.cardSubtitle}>View all users across tenants</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
+          </TouchableOpacity>
         </View>
 
-        {/* Optional: Professional Logout Button at the bottom of list */}
-        <View className="px-6 mt-10">
-          <TouchableOpacity
-            onPress={handleLogout}
-            className="bg-rose-50 p-4 rounded-2xl items-center border border-rose-100"
-          >
-            <Text className="text-rose-600 font-bold">Logout Session</Text>
+        {/* Professional Logout Button at the bottom of list */}
+        <View style={styles.logoutSection}>
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Logout Session</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  section: {
+    paddingHorizontal: 24,
+    marginTop: 32,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#0f172a',
+    marginBottom: 16,
+    letterSpacing: -0.5,
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#f1f5f9',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  avatarPlaceholder: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardTextContainer: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  cardTitle: {
+    color: '#0f172a',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  cardSubtitle: {
+    color: '#64748b',
+    fontSize: 14,
+  },
+  logoutSection: {
+    paddingHorizontal: 24,
+    marginTop: 40,
+  },
+  logoutButton: {
+    backgroundColor: '#fff1f2',
+    padding: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ffe4e6',
+  },
+  logoutText: {
+    color: '#e11d48',
+    fontWeight: 'bold',
+  }
+});

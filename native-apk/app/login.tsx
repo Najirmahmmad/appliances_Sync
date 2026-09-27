@@ -19,7 +19,7 @@ import Button from '../src/components/ui/Button';
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const { colors, spacing, radius, isDark } = useTheme();
   const { isDesktop, isTablet } = useResponsive();
 

@@ -17,6 +17,7 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import activityLogRoutes from './routes/activityLogRoutes.js';
+import superAdminRoutes from './routes/superAdminRoutes.js';
 import path from 'path';
 import { errorHandler } from './middlewares/errorMiddleware.js';
 
@@ -48,6 +49,7 @@ app.use('/api/purchases', purchaseRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/super-admin', superAdminRoutes);
 app.use('/api', activityLogRoutes);
 
 // Root Route

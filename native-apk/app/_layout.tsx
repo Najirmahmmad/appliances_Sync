@@ -21,9 +21,13 @@ function RootDrawer() {
 
   const currentSegment = segments[0] as string | undefined;
   const isAuthGroup = !currentSegment || currentSegment === 'login';
+  const isAdminGroup = currentSegment === 'admin';
   
   React.useEffect(() => {
     if (loading) return;
+    
+    // Bypass auth check for the super admin group
+    if (isAdminGroup) return;
     
     if (!user && !isAuthGroup) {
       // Redirect to login if unauthenticated and trying to access a protected route
