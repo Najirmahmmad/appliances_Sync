@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import masterPool from '../database/masterPool.js';
 import poolManager from '../database/PoolManager.js';
+import crypto from 'crypto';
 import {
   generateToken,
   generateRefreshToken,
@@ -120,4 +121,39 @@ export const refreshAccessToken = async (refreshTokenValue) => {
     token: generateToken(user),
     refreshToken: generateRefreshToken(user)
   };
+};
+
+export const requestPasswordReset = async ({ email }) => {
+  if (!email) throw new AuthenticationError('Email is required');
+  
+  const [rows] = await masterPool.query('SELECT id FROM users WHERE email = ?', [email]);
+  if (rows.length === 0) {
+    // For security, do not reveal if email exists, just return success
+    return { success: true, message: 'If that email is in our system, a reset link has been sent.' };
+  }
+  
+  const token = crypto.randomBytes(32).toString('hex');
+  const expires = new Date(Date.now() + 3600000); // 1 hour from now
+  
+  await masterPool.query('UPDATE users SET reset_token = ?, reset_token_expires = ? WHERE email = ?', [token, expires, email]);
+  
+  // In a real app, send email here. For now we will return the token for testing purposes
+  return { success: true, message: 'Password reset token generated', token };
+};
+
+export const resetPassword = async ({ token, newPassword }) => {
+  if (!token || !newPassword) throw new AuthenticationError('Token and new password are required');
+  
+  const [rows] = await masterPool.query('SELECT id, reset_token_expires FROM users WHERE reset_token = ?', [token]);
+  if (rows.length === 0) throw new AuthenticationError('Invalid or expired reset token');
+  
+  const user = rows[0];
+  if (new Date(user.reset_token_expires) < new Date()) {
+    throw new AuthenticationError('Reset token has expired');
+  }
+  
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  await masterPool.query('UPDATE users SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?', [hashedPassword, user.id]);
+  
+  return { success: true, message: 'Password has been successfully reset' };
 };

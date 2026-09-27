@@ -22,3 +22,23 @@ export const refreshToken = async (req, res, next) => {
     next(error);
   }
 };
+
+import { requestPasswordReset, resetPassword as resetPasswordService } from '../services/authService.js';
+
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const result = await requestPasswordReset(req.body);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  try {
+    const result = await resetPasswordService(req.body);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
