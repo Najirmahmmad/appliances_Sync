@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal, ActivityIndicator, Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../../src/theme/ThemeContext";
 import api from "../../src/config/api";
 
 type Tenant = {
@@ -13,6 +14,8 @@ type Tenant = {
 };
 
 export default function TenantsScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = getStyles(colors, isDark);
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -78,6 +81,8 @@ export default function TenantsScreen() {
     }
   };
 
+  const isDbNameDuplicate = !isEditing && formData.db_name && tenants.some(t => t.db_name.toLowerCase() === formData.db_name.toLowerCase().trim());
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -120,15 +125,15 @@ export default function TenantsScreen() {
               <ActivityIndicator size="large" color="#4338ca" style={{ marginTop: 40 }} />
             ) : tenants.length === 0 ? (
               <View style={styles.emptyState}>
-                <Text style={{ color: '#64748b' }}>No tenants found.</Text>
+                <Text style={{ color: colors.textSecondary }}>No tenants found.</Text>
               </View>
             ) : (
               tenants.map((item) => (
                 <View key={item.id} style={styles.tableRow}>
-                  <Text style={[styles.tableCell, { flex: 2, fontWeight: '600', color: '#1e293b' }]}>
+                  <Text style={[styles.tableCell, { flex: 2, fontWeight: '600', color: colors.textPrimary }]}>
                     {item.company_name}
                   </Text>
-                  <Text style={[styles.tableCell, { flex: 2, color: '#475569' }]}>
+                  <Text style={[styles.tableCell, { flex: 2, color: colors.textSecondary }]}>
                     {item.db_name}
                   </Text>
                   <View style={[styles.tableCell, { flex: 1 }]}>
@@ -217,7 +222,7 @@ export default function TenantsScreen() {
               </TouchableOpacity>
               <TouchableOpacity 
                 onPress={handleSave} 
-                disabled={saving} 
+                disabled={saving || isDbNameDuplicate} 
                 style={styles.saveButton}
               >
                 {saving ? <ActivityIndicator color="white" /> : <Text style={styles.saveButtonText}>{isEditing ? "Update" : "Create Tenant"}</Text>}
@@ -230,24 +235,24 @@ export default function TenantsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any, isDark: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: isDark ? colors.border : "#f1f5f9",
   },
   header: {
     paddingHorizontal: 32,
     paddingVertical: 24,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: isDark ? colors.border : "#f1f5f9",
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#1e293b',
+    color: colors.textPrimary,
   },
   headerSubtitle: {
     fontSize: 14,
-    color: '#64748b',
+    color: colors.textSecondary,
     marginTop: 4,
   },
   mainContent: {
@@ -265,20 +270,20 @@ const styles = StyleSheet.create({
   searchBox: {
     flex: 1,
     maxWidth: 400,
-    backgroundColor: 'white',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     paddingHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.border,
     height: 44,
   },
   searchInput: {
     flex: 1,
     paddingVertical: 10,
     marginLeft: 12,
-    color: '#334155',
+    color: colors.textPrimary,
     outlineStyle: 'none',
     fontSize: 14,
   },
@@ -297,25 +302,25 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   tableCard: {
-    backgroundColor: 'white',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.border,
     flex: 1,
     overflow: 'hidden',
   },
   tableHeaderRow: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
+    borderBottomColor: colors.border,
     paddingHorizontal: 24,
     paddingVertical: 16,
-    backgroundColor: '#f8fafc',
+    backgroundColor: colors.background,
   },
   tableHeaderCell: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#64748b',
+    color: colors.textSecondary,
     letterSpacing: 0.5,
   },
   tableBody: {
@@ -324,7 +329,7 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
+    borderBottomColor: colors.border,
     paddingHorizontal: 24,
     paddingVertical: 16,
     alignItems: 'center',
@@ -354,7 +359,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   statusTextInactive: {
-    color: '#e11d48',
+    color: isDark ? '#fb7185' : '#e11d48',
     fontSize: 12,
     fontWeight: '600',
   },
@@ -366,7 +371,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: colors.surface,
     borderRadius: 16,
     width: '100%',
     maxWidth: 500,
@@ -384,12 +389,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
+    borderBottomColor: colors.border,
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#1e293b',
+    color: colors.textPrimary,
   },
   modalBody: {
     padding: 24,
@@ -400,23 +405,23 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#334155',
+    color: colors.textPrimary,
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: '#cbd5e1',
+    borderColor: colors.border,
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 15,
-    color: '#0f172a',
+    color: colors.textPrimary,
     outlineStyle: 'none',
   },
   inputDisabled: {
-    backgroundColor: '#f8fafc',
-    color: '#94a3b8',
+    backgroundColor: colors.background,
+    color: colors.textSecondary,
   },
   statusToggleContainer: {
     flexDirection: 'row',
@@ -439,36 +444,36 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
   },
   statusToggleActiveBg: {
-    backgroundColor: '#eef2ff',
-    borderColor: '#c7d2fe',
+    backgroundColor: isDark ? 'rgba(67, 56, 202, 0.2)' : '#eef2ff',
+    borderColor: isDark ? 'rgba(67, 56, 202, 0.4)' : '#c7d2fe',
   },
   statusToggleActiveBgRose: {
-    backgroundColor: '#fff1f2',
-    borderColor: '#fecdd3',
+    backgroundColor: isDark ? 'rgba(225, 29, 72, 0.2)' : '#fff1f2',
+    borderColor: isDark ? 'rgba(225, 29, 72, 0.4)' : '#fecdd3',
     borderLeftWidth: 1,
   },
   statusToggleInactiveBg: {
-    backgroundColor: '#fff',
-    borderColor: '#cbd5e1',
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
   },
   statusToggleActiveText: {
-    color: '#4338ca',
+    color: isDark ? '#818cf8' : '#4338ca',
     fontWeight: '600',
   },
   statusToggleActiveTextRose: {
-    color: '#e11d48',
+    color: isDark ? '#fb7185' : '#e11d48',
     fontWeight: '600',
   },
   statusToggleInactiveText: {
-    color: '#64748b',
+    color: colors.textSecondary,
   },
   modalFooter: {
     flexDirection: 'row',
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderTopColor: '#f1f5f9',
-    backgroundColor: '#f8fafc',
+    borderTopColor: colors.border,
+    backgroundColor: colors.background,
     gap: 16,
   },
   cancelButton: {
@@ -476,12 +481,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#cbd5e1',
+    borderColor: colors.border,
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: colors.surface,
   },
   cancelButtonText: {
-    color: '#475569',
+    color: colors.textSecondary,
     fontWeight: '600',
     fontSize: 15,
   },

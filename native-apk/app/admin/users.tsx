@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal, ActivityIndicator, Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../../src/theme/ThemeContext";
 import api from "../../src/config/api";
 import Select from "../../src/components/ui/Select";
 
@@ -19,6 +20,8 @@ type User = {
 type Tenant = { id: number; company_name: string; };
 
 export default function UsersScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = getStyles(colors, isDark);
   const [users, setUsers] = useState<User[]>([]);
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
@@ -158,10 +161,11 @@ export default function UsersScreen() {
         {/* Controls */}
         <View style={styles.controlsContainer}>
           <View style={styles.searchBox}>
-            <Ionicons name="search" size={20} color="#94a3b8" />
+            <Ionicons name="search" size={20} color={colors.textSecondary} />
             <TextInput
               placeholder="Search by name, email, phone..."
               style={styles.searchInput}
+              placeholderTextColor={colors.textSecondary}
               value={search}
               onChangeText={setSearch}
             />
@@ -224,22 +228,22 @@ export default function UsersScreen() {
               <ActivityIndicator size="large" color="#4338ca" style={{ marginTop: 40 }} />
             ) : users.length === 0 ? (
               <View style={styles.emptyState}>
-                <Text style={{ color: '#64748b' }}>No users found.</Text>
+                <Text style={{ color: colors.textSecondary }}>No users found.</Text>
               </View>
             ) : (
               users.map((item) => (
                 <View key={item.id} style={styles.tableRow}>
                   <View style={{ flex: 2 }}>
-                    <Text style={[styles.tableCell, { fontWeight: '600', color: '#1e293b' }]}>
+                    <Text style={[styles.tableCell, { fontWeight: '600', color: colors.textPrimary }]}>
                       {item.name}
                     </Text>
                   </View>
                   <View style={{ flex: 2 }}>
-                    <Text style={[styles.tableCell, { color: '#475569' }]}>{item.email || 'N/A'}</Text>
-                    <Text style={[styles.tableCell, { color: '#64748b', fontSize: 13, marginTop: 2 }]}>{item.phone || 'N/A'}</Text>
+                    <Text style={[styles.tableCell, { color: colors.textSecondary }]}>{item.email || 'N/A'}</Text>
+                    <Text style={[styles.tableCell, { color: colors.textSecondary, fontSize: 13, marginTop: 2 }]}>{item.phone || 'N/A'}</Text>
                   </View>
                   <View style={{ flex: 1.5 }}>
-                    <Text style={[styles.tableCell, { color: '#475569' }]}>
+                    <Text style={[styles.tableCell, { color: colors.textSecondary }]}>
                       {item.company_name || 'System'}
                     </Text>
                   </View>
@@ -283,14 +287,14 @@ export default function UsersScreen() {
           </ScrollView>
           
           <View style={styles.paginationFooter}>
-             <Text style={{color: '#64748b'}}>Total Records: {totalRecords}</Text>
+             <Text style={{color: colors.textSecondary}}>Total Records: {totalRecords}</Text>
              <View style={{flexDirection: 'row', gap: 12, alignItems: 'center'}}>
                 <TouchableOpacity onPress={() => fetchUsers(page - 1)} disabled={page <= 1} style={[styles.pageBtn, page <= 1 && {opacity: 0.5}]}>
-                   <Text>Prev</Text>
+                   <Text style={{ color: colors.textPrimary, fontWeight: '600' }}>Prev</Text>
                 </TouchableOpacity>
-                <Text>Page {page} of {totalPages}</Text>
+                <Text style={{ color: colors.textPrimary }}>Page {page} of {totalPages}</Text>
                 <TouchableOpacity onPress={() => fetchUsers(page + 1)} disabled={page >= totalPages} style={[styles.pageBtn, page >= totalPages && {opacity: 0.5}]}>
-                   <Text>Next</Text>
+                   <Text style={{ color: colors.textPrimary, fontWeight: '600' }}>Next</Text>
                 </TouchableOpacity>
              </View>
           </View>
@@ -409,24 +413,24 @@ export default function UsersScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any, isDark: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: isDark ? colors.border : "#f1f5f9",
   },
   header: {
     paddingHorizontal: 32,
     paddingVertical: 24,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: isDark ? colors.border : "#f1f5f9",
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#1e293b',
+    color: colors.textPrimary,
   },
   headerSubtitle: {
     fontSize: 14,
-    color: '#64748b',
+    color: colors.textSecondary,
     marginTop: 4,
   },
   mainContent: {
@@ -444,20 +448,20 @@ const styles = StyleSheet.create({
   searchBox: {
     flex: 1,
     maxWidth: 400,
-    backgroundColor: 'white',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     paddingHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.border,
     height: 44,
   },
   searchInput: {
     flex: 1,
     paddingVertical: 10,
     marginLeft: 12,
-    color: '#334155',
+    color: colors.textPrimary,
     outlineStyle: 'none',
     fontSize: 14,
   },
@@ -476,25 +480,25 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   tableCard: {
-    backgroundColor: 'white',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.border,
     flex: 1,
     overflow: 'hidden',
   },
   tableHeaderRow: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
+    borderBottomColor: colors.border,
     paddingHorizontal: 24,
     paddingVertical: 16,
-    backgroundColor: '#f8fafc',
+    backgroundColor: colors.background,
   },
   tableHeaderCell: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#64748b',
+    color: colors.textSecondary,
     letterSpacing: 0.5,
   },
   tableBody: {
@@ -503,7 +507,7 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
+    borderBottomColor: colors.border,
     paddingHorizontal: 24,
     paddingVertical: 16,
     alignItems: 'center',
@@ -535,10 +539,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   statusBadgeActive: { backgroundColor: '#dcfce7' },
-  statusBadgeInactive: { backgroundColor: '#f1f5f9' },
+  statusBadgeInactive: { backgroundColor: isDark ? colors.border : "#f1f5f9" },
   statusBadgeText: { fontSize: 12, fontWeight: '600' },
   statusTextActive: { color: '#16a34a' },
-  statusTextInactive: { color: '#64748b' },
+  statusTextInactive: { color: colors.textSecondary },
   paginationFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -546,15 +550,15 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopWidth: 1,
     borderTopColor: '#e2e8f0',
-    backgroundColor: '#f8fafc',
+    backgroundColor: colors.background,
   },
   pageBtn: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderWidth: 1,
-    borderColor: '#cbd5e1',
+    borderColor: colors.border,
     borderRadius: 6,
-    backgroundColor: 'white'
+    backgroundColor: colors.surface
   },
   modalOverlay: {
     flex: 1,
@@ -563,7 +567,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: colors.surface,
     width: '90%',
     maxWidth: 500,
     borderRadius: 12,
@@ -575,12 +579,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
     borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
+    borderBottomColor: colors.border,
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#0f172a',
+    color: colors.textPrimary,
   },
   modalBody: {
     padding: 24,
@@ -591,37 +595,37 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#334155',
+    color: colors.textPrimary,
     marginBottom: 8,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#cbd5e1',
+    borderColor: colors.border,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 14,
-    color: '#0f172a',
-    backgroundColor: 'white',
+    color: colors.textPrimary,
+    backgroundColor: colors.surface,
     outlineStyle: 'none'
   },
   inputDisabled: {
-    backgroundColor: '#f1f5f9',
-    color: '#64748b',
+    backgroundColor: isDark ? colors.border : "#f1f5f9",
+    color: colors.textSecondary,
   },
   statusToggleContainer: {
     flexDirection: 'row',
     borderRadius: 8,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.border,
   },
   statusToggleLeft: {
     flex: 1,
     paddingVertical: 10,
     alignItems: 'center',
     borderRightWidth: 1,
-    borderRightColor: '#e2e8f0',
+    borderRightColor: colors.border,
   },
   statusToggleRight: {
     flex: 1,
@@ -630,18 +634,18 @@ const styles = StyleSheet.create({
   },
   statusToggleActiveBg: { backgroundColor: '#10b981' },
   statusToggleActiveBgRose: { backgroundColor: '#f43f5e' },
-  statusToggleInactiveBg: { backgroundColor: '#f8fafc' },
+  statusToggleInactiveBg: { backgroundColor: colors.background },
   statusToggleActiveText: { color: 'white', fontWeight: '600' },
   statusToggleActiveTextRose: { color: 'white', fontWeight: '600' },
-  statusToggleInactiveText: { color: '#64748b', fontWeight: '500' },
+  statusToggleInactiveText: { color: colors.textSecondary, fontWeight: '500' },
   modalFooter: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     gap: 12,
     padding: 24,
     borderTopWidth: 1,
-    borderTopColor: '#f1f5f9',
-    backgroundColor: '#f8fafc',
+    borderTopColor: colors.border,
+    backgroundColor: colors.background,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
   },
@@ -652,7 +656,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cancelButtonText: {
-    color: '#64748b',
+    color: colors.textSecondary,
     fontWeight: '600',
   },
   saveButton: {

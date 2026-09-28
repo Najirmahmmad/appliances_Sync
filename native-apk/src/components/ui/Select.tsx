@@ -31,8 +31,8 @@ export default function Select({ label, value, options, onChange, icon }: Select
         style={[
           styles.inputContainer,
           {
-            backgroundColor: '#f8fafc',
-            borderColor: '#e2e8f0',
+            backgroundColor: colors.surface,
+            borderColor: colors.border,
             borderRadius: 8,
             paddingHorizontal: spacing.md,
           },
@@ -62,7 +62,7 @@ export default function Select({ label, value, options, onChange, icon }: Select
             }}
           >
             {options.map((opt) => (
-              <option key={opt.value} value={opt.value} style={{ backgroundColor: '#ffffff', color: colors.textPrimary }}>
+              <option key={opt.value} value={opt.value} style={{ backgroundColor: colors.surface, color: colors.textPrimary }}>
                 {opt.label}
               </option>
             ))}

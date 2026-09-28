@@ -6,9 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DashboardStats from "../components/DashboardStats";
 import { clearAuthData } from "../utils/storage";
 import { StyleSheet } from "react-native";
+import { useTheme } from "../../src/theme/ThemeContext";
 
 export default function AdminHome() {
   const router = useRouter();
+  const { colors, isDark } = useTheme();
 
   const adminStats = [
     {
@@ -35,7 +37,7 @@ export default function AdminHome() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={{ paddingBottom: 100 }}
@@ -46,21 +48,21 @@ export default function AdminHome() {
 
         {/* Tracked Users List Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Tracked Users</Text>
+          <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>Tracked Users</Text>
 
           {/* User Tracking Card */}
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => router.push("/admin/tracking")}
-            style={styles.card}
+            style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
           >
-            <View style={[styles.avatarPlaceholder, { backgroundColor: '#f1f5f9' }]}>
-              <Ionicons name="location" size={24} color="#64748b" />
+            <View style={[styles.avatarPlaceholder, { backgroundColor: isDark ? colors.border : "#f1f5f9" }]}>
+              <Ionicons name="location" size={24} color={colors.textSecondary} />
             </View>
 
             <View style={styles.cardTextContainer}>
-              <Text style={styles.cardTitle}>Active Field User</Text>
-              <Text style={styles.cardSubtitle}>View recorded movement path</Text>
+              <Text style={[styles.cardTitle, { color: colors.textPrimary }]}>Active Field User</Text>
+              <Text style={[styles.cardSubtitle, { color: colors.textSecondary }]}>View recorded movement path</Text>
             </View>
 
             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
@@ -70,14 +72,14 @@ export default function AdminHome() {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => router.push("/admin/tenants")}
-            style={styles.card}
+            style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
           >
             <View style={[styles.avatarPlaceholder, { backgroundColor: '#eff6ff' }]}>
               <Ionicons name="business" size={24} color="#3b82f6" />
             </View>
             <View style={styles.cardTextContainer}>
-              <Text style={styles.cardTitle}>Tenant Management</Text>
-              <Text style={styles.cardSubtitle}>Manage clients and databases</Text>
+              <Text style={[styles.cardTitle, { color: colors.textPrimary }]}>Tenant Management</Text>
+              <Text style={[styles.cardSubtitle, { color: colors.textSecondary }]}>Manage clients and databases</Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
           </TouchableOpacity>
@@ -86,14 +88,14 @@ export default function AdminHome() {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => router.push("/admin/users")}
-            style={styles.card}
+            style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
           >
             <View style={[styles.avatarPlaceholder, { backgroundColor: '#faf5ff' }]}>
               <Ionicons name="people" size={24} color="#a855f7" />
             </View>
             <View style={styles.cardTextContainer}>
-              <Text style={styles.cardTitle}>Master Users</Text>
-              <Text style={styles.cardSubtitle}>View all users across tenants</Text>
+              <Text style={[styles.cardTitle, { color: colors.textPrimary }]}>Master Users</Text>
+              <Text style={[styles.cardSubtitle, { color: colors.textSecondary }]}>View all users across tenants</Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
           </TouchableOpacity>
