@@ -30,7 +30,7 @@ export default function SaleFormScreen() {
   const [itemsMaster, setItemsMaster] = useState<any[]>([]);
   const [error, setError] = useState('');
   const [formErrors, setFormErrors] = useState({ party_name: '', party_phone: '' });
-  const [itemTypeFilter, setItemTypeFilter] = useState<'Essentials' | 'Accessories'>('Essentials');
+  const [itemTypeFilter, setItemTypeFilter] = useState<'Essentials' | 'Spare Parts'>('Essentials');
 
   const initialHeaderData = {
     book_code: 'SA',
@@ -104,10 +104,10 @@ export default function SaleFormScreen() {
 
   const filteredItems = useMemo(() => {
     return itemsMaster.filter((item) => {
-      if (itemTypeFilter === 'Accessories') {
+      if (itemTypeFilter === 'Spare Parts') {
         return item.isAccessories === 'Yes';
       }
-      // Essentials (Exclude Accessories and AMC)
+      // Essentials (Exclude Spare Parts and AMC)
       return item.isAccessories !== 'Yes' && item.isAMC !== 'Yes';
     });
   }, [itemsMaster, itemTypeFilter]);
@@ -328,14 +328,14 @@ export default function SaleFormScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity 
-              onPress={() => setItemTypeFilter('Accessories')}
+              onPress={() => setItemTypeFilter('Spare Parts')}
               style={[
                 styles.itemChip,
                 { borderRadius: radius.sm, borderColor: colors.border },
-                itemTypeFilter === 'Accessories' && { backgroundColor: colors.primary, borderColor: colors.primary }
+                itemTypeFilter === 'Spare Parts' && { backgroundColor: colors.primary, borderColor: colors.primary }
               ]}
             >
-              <Typography color={itemTypeFilter === 'Accessories' ? colors.white : colors.textPrimary} style={{ fontWeight: '600' }}>Accessories</Typography>
+              <Typography color={itemTypeFilter === 'Spare Parts' ? colors.white : colors.textPrimary} style={{ fontWeight: '600' }}>Spare Parts</Typography>
             </TouchableOpacity>
           </View>
 

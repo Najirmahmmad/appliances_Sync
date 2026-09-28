@@ -13,6 +13,7 @@ import DataTable from '../../src/components/ui/DataTable';
 import FormModal from '../../src/components/ui/FormModal';
 import Typography from '../../src/components/ui/Typography';
 import Badge from '../../src/components/ui/Badge';
+import Select from '../../src/components/ui/Select';
 
 const TAX_RATES = [0, 5, 12, 18, 28];
 const UNITS = ['Pcs', 'Set', 'Nos', 'Kg', 'Ltr', 'Mtr', 'Box', 'Pack'];
@@ -257,7 +258,7 @@ export default function ItemMasterScreen() {
         ),
       },
       {
-        header: 'Accessories',
+        header: 'Spare Parts',
         render: (row: any) => (
           <Badge label={row.isAccessories === 'Yes' ? 'Yes' : 'No'} variant={row.isAccessories === 'Yes' ? 'success' : 'default'} />
         ),
@@ -294,15 +295,35 @@ export default function ItemMasterScreen() {
       <Header title="Add/Acc Item Master" subtitle="Manage products and stock" showBack />
 
       {/* Search & Add */}
-      <Card style={{ margin: spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
-        <View style={{ flex: 1, maxWidth: 400 }}>
-        <Input
-          placeholder="Search Item Code or Name..."
-          value={searchTerm}
-          onChangeText={setSearchTerm}
-          icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
-        />
-      </View>
+      <Card style={{ margin: spacing.md, gap: spacing.md }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md, flexWrap: 'wrap', zIndex: 10 }}>
+          <View style={{ flex: 1, minWidth: 200, maxWidth: 400 }}>
+            <Input
+              placeholder="Search Item Code or Name..."
+              value={searchTerm}
+              onChangeText={setSearchTerm}
+              icon={<Ionicons name="search-outline" size={20} color={colors.textSecondary} />}
+            />
+          </View>
+          
+          <View style={{ flex: 1, minWidth: 150, maxWidth: 250 }}>
+            <Select
+              value={filterDept}
+              onChange={setFilterDept}
+              options={[
+                { label: 'All Departments', value: 'All' },
+                ...departments.map((d: any) => ({ label: d.dept_name, value: d.dept_code }))
+              ]}
+              icon={<Ionicons name="layers-outline" size={20} color={colors.textSecondary} />}
+            />
+          </View>
+
+          <Button 
+            title="Add Item" 
+            onPress={handleAddNew} 
+            icon={<Ionicons name="add" size={20} color={colors.white} />} 
+          />
+        </View>
         
         {/* Type Filters */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: spacing.sm }}>
@@ -341,16 +362,10 @@ export default function ItemMasterScreen() {
             ]}
           >
             <Typography color={(filterAccessories === 'Yes') ? colors.white : colors.textPrimary} style={{ fontWeight: (filterAccessories === 'Yes') ? '700' : '500' }}>
-              Accessories
+              Spare Parts
             </Typography>
           </TouchableOpacity>
         </ScrollView>
-
-        <Button 
-          title="Add Item" 
-          onPress={handleAddNew} 
-          icon={<Ionicons name="add" size={20} color={colors.white} />} 
-        />
       </Card>
 
       {/* Messages */}
@@ -405,6 +420,15 @@ export default function ItemMasterScreen() {
           value={formData.item_name}
           onChangeText={(text) => setFormData({ ...formData, item_name: text })}
           placeholder="Item Description"
+        />
+        <Select
+          label="Department"
+          value={formData.dept_code}
+          onChange={(val) => setFormData({ ...formData, dept_code: val })}
+          options={[
+            { label: 'Select Department...', value: '' },
+            ...departments.map((d: any) => ({ label: d.dept_name, value: d.dept_code }))
+          ]}
         />
         <Input
           label="Sale Rate (₹) *"
@@ -505,7 +529,7 @@ export default function ItemMasterScreen() {
         </View>
 
         <View style={{ gap: spacing.xs }}>
-          <Typography variant="body" style={{ fontWeight: '600' }}>Accessories Item?</Typography>
+          <Typography variant="body" style={{ fontWeight: '600' }}>Spare Parts Item?</Typography>
           <View style={{ flexDirection: 'row', gap: spacing.sm }}>
             {['Yes', 'No'].map((val) => (
               <TouchableOpacity

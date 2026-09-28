@@ -23,11 +23,11 @@ export default function Input({
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {label && (
+      {label ? (
         <Typography variant="body" style={{ marginBottom: spacing.xs, fontWeight: '600' }}>
           {label}
         </Typography>
-      )}
+      ) : null}
       
       <View
         style={[
@@ -54,11 +54,11 @@ export default function Input({
         />
       </View>
       
-      {error && (
+      {error ? (
         <Typography variant="caption" color={colors.error} style={{ marginTop: spacing.xs }}>
           {error}
         </Typography>
-      )}
+      ) : null}
     </View>
   );
 }

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo , useCallback } from 'react';
 import { View, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { formatDisplayDate } from '../../src/utils/dateUtils';
 import api from '../../src/config/api';
 import Header from '../../src/components/ui/Header';
@@ -55,9 +55,11 @@ export default function StockReturnListScreen() {
     }
   };
 
-  useEffect(() => {
-    fetchTransfers();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransfers();
+    }, [])
+  );
 
   const handleDelete = (bookCode: string, vouchNo: number) => {
     Alert.alert('Delete Stock Transfer Return', `Are you sure you want to delete return ${bookCode}-${vouchNo}?`, [

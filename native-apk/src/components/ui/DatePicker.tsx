@@ -87,11 +87,11 @@ export default function DatePicker({ label, value, onChange, icon }: DatePickerP
 
   return (
     <View style={styles.container}>
-      {label && (
+      {label ? (
         <Typography variant="caption" color={colors.textSecondary} style={{ marginBottom: spacing.xs, fontWeight: '600' }}>
           {label}
         </Typography>
-      )}
+      ) : null}
 
       <View
         style={[
