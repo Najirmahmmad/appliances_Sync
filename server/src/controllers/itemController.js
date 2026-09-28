@@ -205,7 +205,7 @@ export const createItem = async (req, res, next) => {
     
     // Validate isAMC value
     const amcValue = isAMC === 'Yes' ? 'Yes' : 'No';
-    const accessoriesValue = isAccessories === 'Yes' ? 1 : 0;
+    const accessoriesValue = isAccessories === 'Yes' ? 'Yes' : 'No';
     
     // Insert item
     await pool.query(
@@ -216,7 +216,7 @@ export const createItem = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: 'Item created successfully',
-      data: { item_code: item_code.toUpperCase(), item_name, dept_code, sale_rate: parseFloat(sale_rate), commission: parseFloat(commission || 0), tax_rate, unit, hsn_code, status, current_stock: opening_stock || 0, isAMC: amcValue, isAccessories: accessoriesValue === 1 ? 'Yes' : 'No', LeadTimeDays: parseInt(LeadTimeDays) || 0, rack_no }
+      data: { item_code: item_code.toUpperCase(), item_name, dept_code, sale_rate: parseFloat(sale_rate), commission: parseFloat(commission || 0), tax_rate, unit, hsn_code, status, current_stock: opening_stock || 0, isAMC: amcValue, isAccessories: accessoriesValue, LeadTimeDays: parseInt(LeadTimeDays) || 0, rack_no }
     });
   } catch (error) {
     next(error);
@@ -251,7 +251,7 @@ export const updateItem = async (req, res, next) => {
     
     // Validate isAMC value
     const amcValue = isAMC === 'Yes' ? 'Yes' : 'No';
-    const accessoriesValue = isAccessories === 'Yes' ? 1 : 0;
+    const accessoriesValue = isAccessories === 'Yes' ? 'Yes' : 'No';
     
     // Update item
     await pool.query(
@@ -262,7 +262,7 @@ export const updateItem = async (req, res, next) => {
     res.json({
       success: true,
       message: 'Item updated successfully',
-      data: { item_code: code, item_name, dept_code, sale_rate: parseFloat(sale_rate), commission: parseFloat(commission || 0), tax_rate, unit, hsn_code, status, current_stock, isAMC: amcValue, isAccessories: accessoriesValue === 1 ? 'Yes' : 'No', LeadTimeDays: parseInt(LeadTimeDays) || 0, rack_no }
+      data: { item_code: code, item_name, dept_code, sale_rate: parseFloat(sale_rate), commission: parseFloat(commission || 0), tax_rate, unit, hsn_code, status, current_stock, isAMC: amcValue, isAccessories: accessoriesValue, LeadTimeDays: parseInt(LeadTimeDays) || 0, rack_no }
     });
   } catch (error) {
     next(error);
