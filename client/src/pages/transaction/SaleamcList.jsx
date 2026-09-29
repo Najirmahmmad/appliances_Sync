@@ -2358,7 +2358,7 @@ const SaleamcList = () => {
       ]],
       body: items.map((item, i) => [
         i + 1,
-        `${item.item_name}${item.qty && Number(item.qty) > 0 ? ` ${item.qty} Year` : ''}${item.hsn_code && item.hsn_code !== 'null' ? `\n(HSN: ${item.hsn_code})` : ''}${item.model_no && item.model_no !== 'null' ? `\n(Model No: ${item.model_no})` : ''}${item.serial_no && item.serial_no !== 'null' ? `\n(Serial No: ${item.serial_no})` : ''}`,
+        `${item.item_name}${item.qty && Number(item.qty) > 0 ? ` ${Number(item.qty)} Year` : ''}${item.hsn_code && item.hsn_code !== 'null' ? `\n(HSN: ${item.hsn_code})` : ''}${item.model_no && item.model_no !== 'null' ? `\n(Model No: ${item.model_no})` : ''}${item.serial_no && item.serial_no !== 'null' ? `\n(Serial No: ${item.serial_no})` : ''}`,
         Number(item.rate).toFixed(2),
         `${Number(item.rate).toFixed(2)} x ${item.qty}`,
         Number(item.basic_amt).toFixed(2),
