@@ -14,7 +14,14 @@
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE"
       },
-      "package": "com.ifb.sync2026"
+      "package": "com.ifb.sync2026",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_LOCATION"
+      ]
     },
     "plugins": [
       "expo-router",
@@ -31,16 +38,21 @@
       "expo-splash-screen",
       "expo-status-bar",
       "expo-web-browser",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      "./scripts/with-apk-splits.js"
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "03aab4fb-f037-488e-b2b8-d07ec78615f1"
+      }
     },
     "runtimeVersion": {
       "policy": "appVersion"
-    }
+    },
+    "owner": "najircode"
   }
 }

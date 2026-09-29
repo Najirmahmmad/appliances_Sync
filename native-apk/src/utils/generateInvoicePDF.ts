@@ -186,7 +186,7 @@ export const generateSaleInvoicePDF = (header: any, items: any[], company: any):
     head: [['#', 'Item Description (HSN)', 'MRP (Rs.)', 'Unit Price x Qty', 'Basic Amt', 'SGST', 'CGST', 'Net Amount']],
     body: items.map((item: any, i: number) => [
       i + 1,
-      `${item.item_name}\n(HSN: ${item.hsn_code})`,
+      `${item.item_name}${header.book_code === 'SAM' && item.qty && Number(item.qty) > 0 ? ` ${item.qty} Year` : ''}${item.hsn_code && item.hsn_code !== 'null' ? `\n(HSN: ${item.hsn_code})` : ''}`,
       Number(item.rate).toFixed(2),
       `${Number(item.rate).toFixed(2)} x ${item.qty}`,
       Number(item.basic_amt).toFixed(2),

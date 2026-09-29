@@ -2358,7 +2358,7 @@ const generateInvoicePDF = async (header, items, company) => {
     ]],
     body: items.map((item, i) => [
       i + 1,
-      `${item.item_name}\n(HSN: ${item.hsn_code})`,
+      `${item.item_name}${item.hsn_code && item.hsn_code !== 'null' ? `\n(HSN: ${item.hsn_code})` : ''}`,
       Number(item.rate).toFixed(2),
       `${Number(item.rate).toFixed(2)} x ${item.qty}`,
       Number(item.basic_amt).toFixed(2),
